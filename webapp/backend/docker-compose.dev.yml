@@ -1,0 +1,14 @@
+services:
+  mariadbserver:
+    image: mariadb:11.5.2
+    container_name: webshop-mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge

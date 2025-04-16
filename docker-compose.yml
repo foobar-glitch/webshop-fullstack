@@ -1,0 +1,52 @@
+services:
+  webshop-frontendserver:
+    build:
+      context: .  
+      dockerfile: docker/httpd_frontend
+    image: webshop-frontend  # Use your specified image
+    container_name: frontend-running  # Set the container name
+    ports:
+      - "${APACHE_IPV6}:80:80"  # Bind the specified IPv6 address and port
+      - "${APACHE_IPV6}:443:443"  # Bind the specified IPv6 address and port
+    depends_on:
+      - webshop-backendserver
+    networks:
+      - frontend_network
+    
+  
+  webshop-backendserver:
+    build:
+      context: .
+      dockerfile: docker/spring_backend
+    image: webshop-backend
+    env_file:
+      - webapp/backend/.env
+    container_name: backend-running  # Set a custom name for the container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadbserver-webshop:3306/web_db
+      - SPRING_DATASOURCE_USERNAME=web_user
+      - SPRING_DATASOURCE_PASSWORD=user_secret
+    ports:
+      - "8080:8080"
+    networks:
+      - frontend_network
+      - backend_network
+    depends_on:
+      - mariadbserver-webshop
+    restart: unless-stopped
+
+  mariadbserver-webshop:
+    image: mariadb:11.5.2
+    container_name: mariadbserver-webshop-running
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+      - backend_network
+
+networks:
+  frontend_network:
+    driver: bridge
+  backend_network:
+    driver: bridge

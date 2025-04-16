@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Inventory Item</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    form {
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Add New Inventory Item</h2>
+
+<form action="/inventory" method="POST">
+  <label for="productName">Product Name:</label>
+  <input type="text" id="productName" name="productName" required>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description" rows="4"></textarea>
+
+  <label for="price">Price ($):</label>
+  <input type="number" id="price" name="price" step="0.01" required>
+
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" required>
+
+  <label for="category">Category:</label>
+  <input type="text" id="category" name="category">
+
+  <button type="submit">Add Item</button>
+</form>
+
+</body>
+</html>

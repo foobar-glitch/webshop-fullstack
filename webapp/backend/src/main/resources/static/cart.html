@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Shopping Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .cart-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      padding: 1em;
+      border-bottom: 1px solid #ddd;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item h3 {
+      margin: 0 0 0.5em;
+    }
+    .cart-item p {
+      margin: 0.25em 0;
+    }
+    .delete-button {
+      background-color: crimson;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+<h1>Your Shopping Cart</h1>
+<div class="cart-container" id="cartContainer">
+  Loading cart...
+</div>
+
+<script>
+  async function fetchCart() {
+    try {
+      const cartRes = await fetch('http://localhost:8080/cart', {
+        credentials: 'include' // send cookies
+      });
+
+      if (!cartRes.ok) {
+        document.getElementById('cartContainer').innerText = 'Failed to load cart. Are you logged in?';
+        return;
+      }
+
+      const cartItems = await cartRes.json();
+      const container = document.getElementById('cartContainer');
+      container.innerHTML = '';
+
+      if (cartItems.length === 0) {
+        container.innerHTML = '<p>Your cart is empty.</p>';
+        return;
+      }
+
+      // Loop through each cart item and fetch the corresponding product name and price
+      for (const item of cartItems) {
+        const productDetails = await fetchProductDetails(item.inventoryId);
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item';
+        itemEl.innerHTML = `
+          <h3>${productDetails.productName || 'Unknown Product'}</h3>
+          <p><strong>Price:</strong> €${productDetails.price.toFixed(2) || 'N/A'}</p>
+          <p><strong>Quantity:</strong> ${item.quantity}</p>
+          <p><strong>Added:</strong> ${new Date(item.createdAt).toLocaleString()}</p>
+          <button class="delete-button" onclick="deleteCartItem(${item.cartId})">Delete</button>
+          
+        `;
+        container.appendChild(itemEl);
+      }
+    } catch (err) {
+      console.error('Error fetching cart:', err);
+      document.getElementById('cartContainer').innerText = 'Something went wrong.';
+    }
+  }
+
+  async function fetchProductDetails(inventoryId) {
+    try {
+      const res = await fetch(`http://localhost:8080/inventory/${inventoryId}`, {
+        credentials: 'include'
+      });
+      if (res.ok) {
+        return await res.json(); // Returns JSON object with product details
+      }
+      return { productName: 'Unknown', price: 0 }; // Default values if product details are not found
+    } catch (err) {
+      console.warn('Could not fetch product details for inventoryId:', inventoryId);
+      return { productName: 'Unknown Product', price: 0 };
+    }
+  }
+
+  async function deleteCartItem(cartId) {
+    if (!confirm('Are you sure you want to remove this item from your cart?')) return;
+
+    try {
+
+      const formData = new URLSearchParams();
+      formData.append('cartId', cartId);
+
+      const res = await fetch('http://localhost:8080/cart', {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      });
+
+      if (res.ok) {
+        alert('Item removed from cart.');
+        fetchCart(); // Refresh the cart after deletion
+      } else {
+        const text = await res.text();
+        alert(`Failed to delete item: ${text}`);
+      }
+    } catch (err) {
+      console.error('Error deleting item:', err);
+      alert('Something went wrong while deleting the item.');
+    }
+  }
+
+
+  fetchCart();
+</script>
+</body>
+</html>

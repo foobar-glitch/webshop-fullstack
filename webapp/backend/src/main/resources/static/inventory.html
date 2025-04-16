@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background-color: #f0f2f5;
+    }
+    .product-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .product-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        cursor: pointer;
+    }
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .product-card h2 {
+        margin-top: 0;
+    }
+    .price {
+        color: #007BFF;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    .category {
+        font-style: italic;
+        color: #666;
+        margin-top: 5px;
+    }
+    .description {
+        margin-top: 10px;
+        color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Available Products</h1>
+<div class="product-container" id="productContainer">
+  <!-- Products will be inserted here -->
+</div>
+
+<script>
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  async function fetchInventory() {
+      try {
+          const category = getQueryParam('category');
+          let response;
+          if(category===null){
+            response = await fetch('/inventory');
+          }else{
+            response = await fetch('/inventory?category='+category);
+          }
+
+          const data = await response.json();
+
+          const container = document.getElementById('productContainer');
+
+          data.forEach(item => {
+              const card = document.createElement('div');
+              card.className = 'product-card';
+              card.innerHTML = `
+                  <h2>${item.productName}</h2>
+                  <div class="price">€${item.price.toFixed(2)}</div>
+                  <div class="category">Category: ${item.category}</div>
+              `;
+              card.onclick = () => {
+                  window.location.href = `entry.html?inventoryId=${item.inventoryId}`;
+              };
+              container.appendChild(card);
+          });
+      } catch (error) {
+          console.error('Failed to fetch inventory:', error);
+      }
+  }
+
+  // Run when page loads
+  fetchInventory();
+</script>
+
+</body>
+</html>

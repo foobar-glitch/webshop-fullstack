@@ -1,0 +1,106 @@
+
+.product-entry{
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  .product-details, form, .comments {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .product-details h1 {
+    margin-top: 0;
+  }
+  
+  .price {
+    color: green;
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  .category {
+    font-style: italic;
+    color: #666;
+  }
+  
+  form label {
+    display: block;
+    margin-top: 1em;
+    font-weight: bold;
+  }
+  
+  input[type="number"], textarea, input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-top: 0.5em;
+  }
+  
+  .stars input[type="radio"] {
+    display: none;
+  }
+  
+  .stars label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .stars label:hover,
+  .stars label:hover ~ label {
+    color: gold;
+  }
+  
+  .stars input[type="radio"]:checked ~ label {
+    color: gold;
+  }
+  
+  #commentsSection {
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .comment {
+    background-color: #fafafa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #ccc;
+  }
+  
+  .comment strong {
+    color: #333;
+  }
+  
+  .comment small {
+    color: #888;
+  }
+
+  .buy-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+}
