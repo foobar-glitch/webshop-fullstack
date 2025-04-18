@@ -13,6 +13,18 @@ import {Row} from "react-bootstrap"
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { api_endpoint } from "./Universals";
+import useFetchGET from "./useFetchGET";
+
+const handleLogout = async () => {
+  const res = await fetch(
+    api_endpoint+'/logout',
+    {
+      method: 'GET',
+      credentials: 'include'
+    }
+  );
+  alert(await res.text())
+}
 
 function SideBar() {
   const expand = 'xs'
@@ -34,10 +46,10 @@ function SideBar() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                   <NavDropdown
-                    title="Dropdown"
+                    title="Profile"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
@@ -45,8 +57,8 @@ function SideBar() {
                       Another action
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
+                    <NavDropdown.Item onClick={handleLogout}>
+                      Logout
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>

@@ -16,7 +16,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
 
   const { data: profile_data, isPending, error } = useFetchGET(api_endpoint+"/authenticate");
-  console.log(profile_data)
 
   return (!isPending&&
     <BrowserRouter>
@@ -31,7 +30,7 @@ function App() {
             <Route path='/add-inventory' element={
               <ProtectedRoute 
                 component={AddInventoryItem}
-                condition={profile_data.admin}
+                condition={profile_data&&profile_data.admin}
               />
               }> </Route>
             <Route path="*" element={<NotFound />}/>

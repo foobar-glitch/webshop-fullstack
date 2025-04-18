@@ -67,7 +67,6 @@ public class UserService {
 
     public String readCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
@@ -88,8 +87,8 @@ public class UserService {
         }
 
         Optional<CookieTable> optionalCookieTable = cookieTableService.findByCookieData(hashValue(cookie.getBytes()));
+        // Did not login
         if(optionalCookieTable.isEmpty()){
-            System.out.println("Did not login");
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
         CookieTable cookieTable = optionalCookieTable.get();

@@ -67,8 +67,19 @@ public class UserController {
     }
 
 
-    @GetMapping("/set-token-cookie")
-    public Cookie setTokenCookie(HttpServletResponse response) {
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        User user = userService.authenticate(request).getBody();
+        if(user == null){
+            return ResponseEntity.ok("Was not logged in before");
+        }
+        for(CookieTable c: cookieTableService.findByUserId(user.getUserId())){
+            cookieTableService.deleteById(c.getCookieId());
+        }
+        return ResponseEntity.ok("Deleted cookie from table");
+    }
+
+    private Cookie setTokenCookie(HttpServletResponse response) {
         // Generate a random token using UUID
         String token = UUID.randomUUID().toString();
 
