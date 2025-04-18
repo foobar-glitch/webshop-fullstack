@@ -70,6 +70,31 @@ const Header = () => {
 
 
   const SignInUp = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      const res = await fetch(api_endpoint+"/login", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          
+        },
+        body: new URLSearchParams({
+          username,
+          password,
+        })
+      })
+      const text = await res.text();
+      if(res.ok){
+        handleClose()
+      }else{
+        alert("Something went wrong "+text)
+      }
+    }
+
     return (
       <>
         <Modal className="login-form" show={show} onHide={handleClose}>
@@ -77,13 +102,24 @@ const Header = () => {
             <Modal.Title>Sign In</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-          <Form action={api_endpoint+"/login"} method="POST">
+          <Form onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="text" name="username" placeholder="username" required />
+              <Form.Control type="text" 
+              name="username" 
+              placeholder="username"
+              onChange={(e) => setUsername(e.target.value)}
+              required 
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control type="password" name="password" placeholder="password" required />
+              <Form.Control 
+              type="password" 
+              name="password" 
+              placeholder="password" 
+              onChange={(e) => setPassword(e.target.value)}
+              required 
+              />
               <Form.Text className="text-muted">
                 Never share your password with anyone.
               </Form.Text>
@@ -110,11 +146,6 @@ const Header = () => {
 
     
     const history = useNavigate();
-
-    const clickWishList = () => {
-      console.log(1)
-      history('/wishlist')
-    }
 
     const clickCart = () => {
       history('/cart')
