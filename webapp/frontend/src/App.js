@@ -9,9 +9,16 @@ import NotFound from './components/NotFound';
 import ProductEntry from './components/ProductEntry';
 import ShoppingCart from './components/Cart';
 import AddInventoryItem from './components/AddInventoryItem';
+import { api_endpoint } from './components/Universals';
+import useFetchGET from './components/useFetchGET';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  return (
+
+  const { data: profile_data, isPending, error } = useFetchGET(api_endpoint+"/authenticate");
+  console.log(profile_data)
+
+  return (!isPending&&
     <BrowserRouter>
       <div className="App">
         {/* This Header will appear on every route */}
@@ -21,7 +28,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/entry" element={<ProductEntry />}/>
             <Route path="/cart" element={<ShoppingCart />}></Route>
-            <Route path='/add-inventory' element={<AddInventoryItem />}> </Route>
+            <Route path='/add-inventory' element={
+              <ProtectedRoute 
+                component={AddInventoryItem}
+                condition={profile_data.admin}
+              />
+              }> </Route>
             <Route path="*" element={<NotFound />}/>
           </Routes>
         </div>

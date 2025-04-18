@@ -4,11 +4,13 @@ const useFetchGET = (url, dependencies=[]) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
+    const [res, setRes] = useState(null);
 
     useEffect(() => {
         const abortCont = new AbortController();
         fetch(url, { method:"GET", signal: abortCont.signal, credentials: 'include' })
         .then(res => {
+            setRes(res)
             if(!res.ok){
                 throw Error('Could not fetch the data for that resource')
             }
@@ -30,7 +32,7 @@ const useFetchGET = (url, dependencies=[]) => {
         return () => abortCont.abort();
     }, [url, ...dependencies]);
 
-    return {data, isPending, error};
+    return {res, data, isPending, error};
 }
 
 

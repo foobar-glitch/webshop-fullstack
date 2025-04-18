@@ -90,7 +90,7 @@ public class UserService {
         Optional<CookieTable> optionalCookieTable = cookieTableService.findByCookieData(hashValue(cookie.getBytes()));
         if(optionalCookieTable.isEmpty()){
             System.out.println("Did not login");
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
         CookieTable cookieTable = optionalCookieTable.get();
 

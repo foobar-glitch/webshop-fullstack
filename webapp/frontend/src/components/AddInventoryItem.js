@@ -42,7 +42,9 @@ const AddInventoryItem = () => {
   };
 
   const formStyle = {
-    maxWidth: '500px',
+    maxWidth: 'fit-content',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     margin: '40px',
     fontFamily: 'Arial, sans-serif'
   };
