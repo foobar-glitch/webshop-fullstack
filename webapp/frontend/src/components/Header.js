@@ -190,7 +190,7 @@ const Header = () => {
                 <Row className="icons-row d-flex align-items-center">
                   
                   <Col className="profile p-2" onClick={handleShow}>
-                    <img className="signInUp-image" src="/images/profile-icon.svg" alt="Profile.img" />
+                    <img className="signInUp-image" src="/images/login.svg" alt="Profile.img" />
                   </Col>
                   
                   <Col className="cart p-2" onClick={clickCart}>

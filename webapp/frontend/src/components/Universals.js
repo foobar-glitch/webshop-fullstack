@@ -1,5 +1,5 @@
-//const api_endpoint = 'http://localhost:8080';
-const api_endpoint = "/api";
+const api_endpoint = 'http://localhost:8080';
+//const api_endpoint = "/api";
 
 
 const inventory = api_endpoint+'/inventory'
