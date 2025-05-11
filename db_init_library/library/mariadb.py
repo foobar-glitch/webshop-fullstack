@@ -255,6 +255,8 @@ def create_inventory(SQL_HOST, SQL_PORT, USER_NAME, USER_PASSWORD, DB_NAME, INVE
     Die Galaxy Buds3 Pro blockieren störende Außengeräusche, lassen aber wichtige Signale wie Alarme und Sirenen durch, 
     damit du sicher bleibst und nichts verpasst"""
 
+    bosch_WAN28127="""Die Bosch WAN28127 Waschmaschine spart dir Zeit im Alltag. Trägst du gerne Hemden oder Blusen? Dank der Iron Assist Dampffunktion kommen diese weniger zerknittert aus der Trommel. Der Dampf hilft, Falten in deiner Kleidung zu verringern. Dadurch hast du weniger zu bügeln. Wenn es einmal etwas schneller gehen soll, nutzt du die SpeedPerfect Funktion. Damit verkürzt du Waschprogramme um bis zu 65 Prozent. So ist deine Wäsche schneller fertig, doch das Waschergebnis bleibt das gleiche. Mit der Bosch Waschmaschine sparst du nicht nur Zeit beim Waschen und Bügeln. Du sparst auch Energie und Geld. Denn dank der Energieeffizienzklasse A wäschst du besonders effizient. Somit sparst du bis zu 220 € an Energiekosten über die Lebensdauer des Geräts. """
+
     create_airpods_entry = f"""
         INSERT INTO {INVENTORY_TABLE} (inventory_id, product_name, description, price, quantity, category, created_at, updated_at)
         VALUES (1, 'AirPods Pro 2', '{airpods_description}', 279.00, 195, 'headphones', NOW(), NOW());
@@ -265,9 +267,13 @@ def create_inventory(SQL_HOST, SQL_PORT, USER_NAME, USER_PASSWORD, DB_NAME, INVE
         VALUES (2, 'Galaxy Buds3 Pro', '{galaxy_buds_description}', 179.99, 150, 'headphones', NOW(), NOW());
     """
 
+    create_bosh_entry=f"""INSERT INTO {INVENTORY_TABLE} (inventory_id, product_name, description, price, quantity, category, created_at, updated_at)
+        VALUES (3, 'Bosch WAN28127', '{bosch_WAN28127}', 499.99, 100, 'washing machines', NOW(), NOW());"""
+
 
     cursor.execute(create_airpods_entry)
     cursor.execute(create_airbudds_entry)
+    cursor.execute(create_bosh_entry)
 
     user_connection.commit()
     user_connection.close()

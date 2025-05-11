@@ -13,7 +13,6 @@ import {Row} from "react-bootstrap"
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { api_endpoint } from "./Universals";
-import useFetchGET from "./useFetchGET";
 
 const handleLogout = async () => {
   const res = await fetch(
@@ -53,8 +52,8 @@ function SideBar() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
+                    <NavDropdown.Item href="/add-inventory">
+                      Add Entry
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={handleLogout}>
@@ -178,7 +177,7 @@ const Header = () => {
               <Col className="navbar d-inline-flex" xs={6} md={5} lg={4}>
                 <Row className="navbar-row d-flex align-items-center">
                   <Col className="categories justify-content-end">
-                      {SideBar()}
+                      <SideBar />
                   </Col>
                   <Col className="search-bar">  
                       <Form className="search-field d-flex" onSubmit={ console.log(1) }>
@@ -212,7 +211,7 @@ const Header = () => {
               </Col>
               
             </Row>
-            {SignInUp()}
+            <SignInUp />
         </Container>
         
     )

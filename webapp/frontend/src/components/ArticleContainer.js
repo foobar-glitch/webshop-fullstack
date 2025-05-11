@@ -122,7 +122,6 @@ const ArticleContainer = (article_endpoint, category)  => {
     }
 
     const OpenProduct = (product_id) => {
-        console.log(product_id)
         navigate(`/entry?inventoryId=${product_id}`);
     }
     console.log(data)
