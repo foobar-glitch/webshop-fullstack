@@ -12,6 +12,8 @@ import AddInventoryItem from './components/AddInventoryItem';
 import { api_endpoint } from './components/Universals';
 import useFetchGET from './components/useFetchGET';
 import ProtectedRoute from './components/ProtectedRoute';
+import Register from './components/Register';
+import ValidateToken from './components/ValidateToken';
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
                 condition={profile_data&&profile_data.admin}
               />
               }> </Route>
+            <Route path='/register' element={< Register />} />
+            <Route path='/validate-token' element={<ValidateToken />}/>
             <Route path="*" element={<NotFound />}/>
           </Routes>
         </div>

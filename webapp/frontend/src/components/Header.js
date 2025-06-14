@@ -10,7 +10,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Col from "react-bootstrap/esm/Col";
 import {Row} from "react-bootstrap"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import { api_endpoint } from "./Universals";
 
@@ -40,7 +40,7 @@ function SideBar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
+                  Welcome
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -143,6 +143,7 @@ const Header = () => {
           </Form>
           </Modal.Body>
           <Modal.Footer>
+            <Link to={"/register"} onClick={handleClose}>Register</Link>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>

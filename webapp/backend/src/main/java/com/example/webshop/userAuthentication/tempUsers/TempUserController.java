@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,11 +35,12 @@ public class TempUserController {
      * Registers User to the temporary database
      */
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String username,
-                         @RequestParam String email,
-                         @RequestParam String password,
-                         @RequestParam String confirmPassword
-    ){
+    public ResponseEntity<String> register(@RequestBody RegisterUser registerUser){
+        String username = registerUser.getUsername();
+        String email = registerUser.getEmail();
+        String password = registerUser.getPassword();
+        String confirmPassword = registerUser.getConfirmPassword();
+
         if(!password.equals(confirmPassword)){
             System.out.println("Passwords do not match");
             return new ResponseEntity<>("Passwords do not match",HttpStatus.FORBIDDEN);
@@ -62,7 +64,7 @@ public class TempUserController {
     }
 
 
-    @GetMapping("/register/validate")
+    @PostMapping("/register/validate")
     public ResponseEntity<String> validateToken(@RequestParam String token){
         String hashedToken = hashValue(token.getBytes());
         Optional<RegisterTable> optionalRegisterTable = registerTableService.findByRegisterToken(hashedToken);
