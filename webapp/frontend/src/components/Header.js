@@ -90,13 +90,10 @@ const Header = () => {
         method: 'POST',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           
         },
-        body: new URLSearchParams({
-          username,
-          password,
-        })
+        body: JSON.stringify({username, password}),
       })
       const text = await res.text();
       if(res.ok){

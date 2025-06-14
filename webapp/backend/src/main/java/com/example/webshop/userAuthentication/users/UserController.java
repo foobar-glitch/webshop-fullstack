@@ -33,9 +33,14 @@ public class UserController {
     private ResetTableService resetTableService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password,
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
                                         HttpServletResponse response){
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+        System.out.println(username);
+        System.out.println(password);
         String cookieId = setTokenCookie(response).getValue();
+
         if(cookieId == null){
             System.out.println("No Cookie set");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

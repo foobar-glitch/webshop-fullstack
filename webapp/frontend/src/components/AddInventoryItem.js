@@ -37,8 +37,6 @@ const AddInventoryItem = () => {
         category: formData.category
       })
      })
-
-     console.log(await res.text())
   };
 
   const formStyle = {
